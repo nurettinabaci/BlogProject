@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from.models import Author, Category, Post
+from.models import Author, Category, Post, Comment
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', "thumbnail", 'author', 'timestamp',)
@@ -15,3 +15,5 @@ class AuthorAdmin(admin.ModelAdmin):
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Category)
 admin.site.register(Post, PostAdmin)
+admin.site.register(Comment)
+

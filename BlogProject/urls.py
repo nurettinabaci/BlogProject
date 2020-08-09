@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls.static import static
 
 from posts.views import index, blog, post, search
@@ -26,6 +26,7 @@ urlpatterns = [
     path("blog/", blog, name='post-list'),
     path("post/<int:pk>", post, name='post-detail'),
     path("search/", search, name='search'),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 if settings.DEBUG:

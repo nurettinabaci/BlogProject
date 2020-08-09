@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.urls import reverse
 
-from .models import Post, Category
+from .forms import CommentForm
+from .models import Post, Category, Comment
 from marketing.models import Signup
 
 
@@ -60,6 +62,23 @@ def blog(request):
 
 
 def post(request, pk):
-    post = Post.objects.get(id=pk)
-    context = {'item': post}
+    post = get_object_or_404(Post, id=pk)
+    latest_posts = Post.objects.order_by("-timestamp")[:3]
+    category_list = Category.objects.all()
+    form = CommentForm(request.POST or None)
+    print("form -- "*30)
+    print(request.method)
+    if request.method=='POST':
+        if form.is_valid():
+            form.instance.user = request.user
+            form.instance.post = post
+            form.save()
+            return redirect(reverse('post-detail', kwargs={
+                'pk': post.pk,
+            }))
+    context = {'post': post,
+               'latest_posts':latest_posts,
+               'category_list':category_list,
+               'form':form,
+               }
     return render(request, 'post.html', context)
