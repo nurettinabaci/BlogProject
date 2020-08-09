@@ -18,6 +18,12 @@
                       <a href="#">{{ cat }}</a>
                       {% endfor %}
                   </div>
+                <div>
+                    {% if request.user.is_staff %}
+                    <a href="{% url 'post-update' pk=post.id %}">Update</a>
+                    <a href="{% url 'post-delete' pk=post.id %}">Delete</a>
+                    {% endif %}
+                </div>
                 </div>
                 <h1>{{ post.title }}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
                 <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#" class="author d-flex align-items-center flex-wrap">

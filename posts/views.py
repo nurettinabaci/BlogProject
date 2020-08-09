@@ -3,10 +3,15 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 
-from .forms import CommentForm
-from .models import Post, Category, Comment
+from .forms import CommentForm, PostForm
+from .models import Post, Category, Author
 from marketing.models import Signup
 
+def get_author(user):
+    qs = Author.objects.filter(user=user)
+    if qs.exists():
+        return qs[0]
+    return None
 
 def search(request):
     queryset = Post.objects.all()
@@ -66,8 +71,6 @@ def post(request, pk):
     latest_posts = Post.objects.order_by("-timestamp")[:3]
     category_list = Category.objects.all()
     form = CommentForm(request.POST or None)
-    print("form -- "*30)
-    print(request.method)
     if request.method=='POST':
         if form.is_valid():
             form.instance.user = request.user
@@ -82,3 +85,44 @@ def post(request, pk):
                'form':form,
                }
     return render(request, 'post.html', context)
+
+def post_create(request):
+    operation_type = 'Create'
+    form = PostForm(initial={'author' : get_author(request.user)})
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("post-detail", kwargs={'pkh':form.instance.id}))
+    context = {
+        'operation_type':operation_type,
+        'form':form,
+    }
+    return render(request, "post_form.html", context)
+
+
+
+
+def post_update(request, pk):
+    operation_type = 'Update'
+    post = get_object_or_404(Post, id=pk)
+    form = PostForm(instance=post)
+    if request.method == "POST":
+        form = PostForm(request.POST or None, request.FILES or None, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("post-detail", kwargs={'pk':form.instance.id}))
+    context = {
+        'operation_type': operation_type,
+        'form':form,
+    }
+    return render(request, 'post_form.html', context)
+
+def post_delete(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    if request.method == "POST":
+        post.delete()
+        return redirect('post-list')
+    context = {'post': post}
+    return render(request, 'post_delete.html', context)
+

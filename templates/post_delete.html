@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br>
+<div class="row" style="margin:0 auto 25px auto; width:80%; " >
+    <div class="col-md-6">
+        <div class="card card-body">
+
+            <p>Are you sure you want to delete "{{post.title}}"?</p>
+            <form action="{% url 'post-delete' post.id  %}" method="POST">
+                {% csrf_token %}
+
+                <a class="btn btn-warning" href="{% url 'post-list' %}">Cancel</a>
+                <input class="btn btn-danger" type="submit" name="Confirm">
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

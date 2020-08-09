@@ -42,8 +42,13 @@ INSTALLED_APPS = [
     'posts',
     'marketing',
 
+    'crispy_forms',
     'tinymce',
 ]
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
