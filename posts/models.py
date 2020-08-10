@@ -20,8 +20,14 @@ class Author(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=20)
+
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
