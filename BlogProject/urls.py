@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 
-from posts.views import index, blog, post, search, post_create, post_delete, post_update
+from posts.views import index, blog, post, search, post_create, post_delete, post_update, confirm, delete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +30,8 @@ urlpatterns = [
     path("post/<int:pk>/", post, name='post-detail'),
     path('post/<int:pk>/delete/', post_delete, name='post-delete'),
     path('post/<int:pk>/update/', post_update, name='post-update'),
+    path('confirm/', confirm, name='confirm'),
+    path('delete/', delete, name='delete'),
 ]
 
 if settings.DEBUG:

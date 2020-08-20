@@ -48,7 +48,7 @@
                                             <a href="#">{{ category }} </a>
                                         {% endfor %}
                                     </div>
-                                    <a href="post.html">
+                                    <a href="{{ post.get_absolute_url }}">
                                         <h2 class="h4">{{ post.title }}</h2>
                                     </a>
                                 </header>
@@ -106,13 +106,12 @@
                             <div class="date">{{ post.timestamp|timesince }} </div>
                             <div class="category"><a href="#">{{ post.categories.first }}</a></div>
                         </div>
-                        <a href="post.html">
+                        <a href="{{ post.get_absolute_url }}">
                             <h3 class="h4">{{ post.title }}</h3></a>
                         <p class="text-muted">{{ post.description}}</p>
                     </div>
                 </div>
                 {% endfor %}
-
             </div>
         </div>
     </section>
@@ -126,11 +125,16 @@
                         incididunt ut labore et dolore magna aliqua.</p>
                 </div>
                 <div class="col-md-8">
+                    <div class="col-12">
+                        {% if email %}
+                            <p>{{ email }} has been {{ action }}.</p>
+                        {% endif %}
+                    </div>
                     <div class="form-holder">
                         <form method="POST" action="">
                             {% csrf_token %}
                             <div class="form-group">
-                                <input type="email" name="email" id="email" placeholder="Type your email address">
+                                <input type="email" class='form-control' name="email" id="email" placeholder="Type your email address">
                                 <button type="submit" class="submit">Subscribe</button>
                             </div>
                         </form>
@@ -172,6 +176,4 @@
             </div>
         </div>
     </section>
-
-
 {% endblock content %}

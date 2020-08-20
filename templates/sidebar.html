@@ -20,7 +20,7 @@
             </header>
             <div class="blog-posts">
                 {% for post in latest_posts %}
-                <a href="#">
+                <a href="{{ post.get_absolute_url }}">
                 <div class="item d-flex align-items-center">
                   <div class="image"><img src="{{ post.thumbnail.url }}" alt="..." class="img-fluid"></div>
                   <div class="title"><strong>{{ post.title  }}</strong>
@@ -43,17 +43,5 @@
 
               {% endfor %}
           </div>
-          <!-- Widget [Tags Cloud Widget]-->
-          <div class="widget tags">
-            <header>
-              <h3 class="h6">Tags</h3>
-            </header>
-            <ul class="list-inline">
-              <li class="list-inline-item"><a href="#" class="tag">#Business</a></li>
-              <li class="list-inline-item"><a href="#" class="tag">#Technology</a></li>
-              <li class="list-inline-item"><a href="#" class="tag">#Fashion</a></li>
-              <li class="list-inline-item"><a href="#" class="tag">#Sports</a></li>
-              <li class="list-inline-item"><a href="#" class="tag">#Economy</a></li>
-            </ul>
-          </div>
+
         </aside>

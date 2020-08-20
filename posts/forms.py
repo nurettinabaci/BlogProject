@@ -2,17 +2,18 @@ from django import forms
 from tinymce.widgets import TinyMCE
 
 from .models import Post, Comment
-
+from marketing.models import Subscriber
 
 
 class PostForm(forms.ModelForm):
     content = forms.CharField(widget=TinyMCE(attrs={'cols': 30, 'rows': 10}))
-    # author =  # ??
+
     class Meta:
         model = Post
-        fields=['title', 'description', 'content', 'author',
-                'thumbnail', 'categories', 'featured',
-                'previous_post', 'next_post' ]
+        fields = ['title', 'description', 'content', 'author',
+                  'thumbnail', 'categories', 'featured',
+                  'previous_post', 'next_post']
+
 
 class CommentForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea(attrs={
@@ -24,4 +25,4 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields=['content']
+        fields = ['content']

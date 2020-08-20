@@ -1,7 +1,11 @@
 asgiref==3.2.10
 Django==3.1
 django-crispy-forms==1.9.2
+django-environ==0.4.5
 django-tinymce==3.0.2
 Pillow==7.2.0
+python-http-client==3.2.7
 pytz==2020.1
+sendgrid==6.4.5
 sqlparse==0.3.1
+starkbank-ecdsa==1.0.0
