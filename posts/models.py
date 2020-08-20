@@ -4,14 +4,12 @@ from django.urls import reverse
 
 from tinymce.models import HTMLField
 
-User = get_user_model()
-
 
 # Create your models here.
 
 
 class Author(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     profile_picture = models.ImageField()
 
     def __str__(self):
@@ -47,7 +45,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={
-            'pk':self.pk
+            'pk': self.pk
         })
 
     @property
@@ -56,12 +54,10 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
-
-

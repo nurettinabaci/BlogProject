@@ -1,8 +1,16 @@
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
 from tinymce.widgets import TinyMCE
 
 from .models import Post, Comment
-from marketing.models import Subscriber
+
+
+class CreateUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
 
 
 class PostForm(forms.ModelForm):

@@ -4,10 +4,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-from django.core.mail import send_mail
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
-from .forms import CommentForm, PostForm
+from .forms import CommentForm, PostForm, CreateUserForm
 from .models import Post, Category, Author
+from .decorators import unauthenticated_user
 from marketing.models import Subscriber
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -24,6 +26,41 @@ def get_author(user):
     if qs.exists():
         return qs[0]
     return None
+
+
+@unauthenticated_user
+def register(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'You successfuly created an account for {username}.')
+            return redirect('login')
+    context = {'form': form}
+    return render(request, 'register.html', context)
+
+
+@unauthenticated_user
+def loginPage(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("index")
+        else:
+            messages.info(request, 'Username or password incorrect!')
+
+    context = {}
+    return render(request, 'login.html', context)
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
 
 
 def search(request):
