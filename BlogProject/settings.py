@@ -18,8 +18,10 @@ env = environ.Env()
 environ.Env.read_env()  # reading .env file
 
 FROM_EMAIL = env.str('FROM_EMAIL')
-
 SENDGRID_API_KEY = env.str('SENDGRID_API_KEY')
+LOGIN_USERNAME = env.str('LOGIN_USERNAME')
+LOGIN_PASSWD = env.str('LOGIN_PASSWD')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent

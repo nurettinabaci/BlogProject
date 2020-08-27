@@ -8,6 +8,7 @@
   - Create-update-delete post operations
   - New members can be created
   - Members can write a comment below any post
+  - Login-register feature
   - Search post feature
   - Subscribe to newsletter feature powered with SendGrid API
   - TinyMCU is used for post create-update page
